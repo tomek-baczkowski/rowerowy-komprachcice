@@ -251,3 +251,12 @@ strong { font-weight: 700; }
   .hero .przyciski { animation-delay: .22s; }
   @keyframes wjazd { from { opacity: 0; transform: translateX(-1.2rem); } }
 }
+
+/* ---------- Opinie ---------- */
+.opinie { display: grid; gap: 1.25rem; margin-top: 2rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); }
+.opinia { margin: 0; background: var(--bez-jasny); border-top: 4px solid var(--limonka); padding: 1.4rem 1.3rem 1.2rem; border-radius: 0 0 var(--r) var(--r); display: flex; flex-direction: column; }
+.sekcja--jasna .opinia { background: #fff; }
+.opinia blockquote { margin: 0 0 1rem; font-size: 1.08rem; line-height: 1.45; }
+.opinia blockquote p { margin: 0; }
+.opinia figcaption { margin-top: auto; font-size: .9rem; color: var(--stal); }
+.gwiazdki { color: #b98a00; letter-spacing: .05em; }

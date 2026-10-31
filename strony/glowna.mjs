@@ -1,5 +1,6 @@
 import { firma } from "../dane/firma.mjs";
 import { strona, przyciski, btnWa, btnTel, foto } from "../lib/layout.mjs";
+import { opinieHtml } from "../dane/opinie.mjs";
 
 const metki = [
   ["/przeglad-roweru/", "Przegląd roweru", "Hamulce, przerzutki, koła, łożyska – sprawdzone i wyregulowane.", "279 zł"],
@@ -70,17 +71,25 @@ export default function glowna() {
 </section>
 
 <section class="sekcja sekcja--jasna">
-  <div class="wrap dwie">
-    <div>
-      <h2>Opinie w Google</h2>
-      <p class="ocena"><b>${firma.ocenaGoogle.srednia}</b><span>na ${firma.ocenaGoogle.liczba} opinii klientów</span></p>
-      <p><a href="${firma.mapa}">Przeczytaj opinie w Google</a></p>
+  <div class="wrap">
+    <div class="ocena-naglowek">
+      <h2>Co mówią klienci</h2>
+      <p class="ocena"><b>${firma.ocenaGoogle.srednia}</b><span>średnia z ${firma.ocenaGoogle.liczba} opinii w Google · <a href="${firma.mapa}">przeczytaj wszystkie</a></span></p>
     </div>
+    ${opinieHtml(["jacek", "semper", "agnieszka"])}
+  </div>
+</section>
+
+<section class="sekcja">
+  <div class="wrap dwie">
     <div>
       <h2>Kto naprawia Twój rower</h2>
       <p><strong>Tomek</strong> pracuje w serwisach rowerowych od 2000 roku. <strong>Szymon</strong> naprawiał rowery w serwisach w Niemczech i w Polsce, a sam bardzo dużo jeździ. Obaj jesteśmy zapalonymi mechanikami.</p>
       <p>Części rowerowe są w tym miejscu od około 30 lat.</p>
       <p><a href="/o-nas/">Więcej o nas</a></p>
+    </div>
+    <div>
+      ${foto("warsztat-wnetrze", "Wnętrze Warsztatu Komprachcice ze stojakiem serwisowym i ścianą narzędzi", { w: 1280, h: 960 })}
     </div>
   </div>
 </section>

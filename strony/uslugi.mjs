@@ -1,5 +1,6 @@
 import { firma } from "../dane/firma.mjs";
 import { kategorie, pozycje, wKategorii } from "../dane/cennik.mjs";
+import { opinieHtml } from "../dane/opinie.mjs";
 import { strona, naglowekStrony, ctaPas, faqHtml, faqSchema, uslugaSchema, foto, przyciski } from "../lib/layout.mjs";
 
 // Wspólne odpowiedzi używane na wielu stronach
@@ -94,6 +95,7 @@ export function wszystkie() {
 <h2>Ile kosztuje</h2>
 ${zCennika("kola-i-opony", (p) => /opony|mleczka|bezdętk/.test(p[1]))}
 <p>Cena dotyczy robocizny. Dętkę lub oponę dobierzemy na miejscu i podamy cenę przed montażem.</p>
+${opinieHtml(["lukasz"])}
 <h2>Przywieź samo koło</h2>
 <p>Jeśli łatwo Ci wykręcić koło, przywieź je bez roweru – wymiana kosztuje wtedy 30 zł.</p>
 <h2>Ciągle łapiesz gumę?</h2>
@@ -208,6 +210,7 @@ ${zCennika("montaz-akcesoriow")}
 <h2>Ile kosztuje</h2>
 ${zCennika("rowery-elektryczne")}
 <p>Mechanika e-roweru – hamulce, napęd, koła – według <a href="/cennik/">zwykłego cennika</a>.</p>
+${opinieHtml(["semper"])}
 <h2>Przegląd zerowy</h2>
 <p>Nowy rower elektryczny warto sprawdzić po pierwszych kilkuset kilometrach: linki się wyciągają, szprychy siadają, śruby się luzują.</p>`,
     faq: [["Czy naprawiacie e-rowery z marketu i mniej znanych marek?", "Tak. Naprawiamy wszystkie marki, także te bez dokumentacji serwisowej. Gdy nie ma oryginalnej części, szukamy zamiennika."], ["Ile kosztuje diagnoza usterki elektrycznej?", "200–250 zł. Dokładną wycenę naprawy podajemy po obejrzeniu roweru."], ["Czy odbierzecie ciężki e-rower z domu?", "Tak, w strefie Skorogoszcz – Opole – Komprachcice. Zobacz <a href=\"/transport-rowerow/\">transport rowerów</a>."]],
@@ -223,7 +226,7 @@ ${zCennika("rowery-elektryczne")}
     opis: "Odbieramy rowery do naprawy w pasie Skorogoszcz – Opole – Komprachcice. Przy naprawie powyżej 200 zł transport gratis, przy tańszej 25 zł.",
     fotoNazwa: "transport-e-rowery", fotoAlt: "Rowery elektryczne przy samochodzie serwisu", fotoWH: [1280, 720],
     tresc: `
-<img class="foto" src="/img/transport-schemat.webp" width="1400" height="267" alt="Schemat: rower z domu jedzie samochodem do warsztatu i wraca sprawny pod drzwi" loading="lazy">
+<img class="foto" src="/img/transport-schemat.png" width="1400" height="267" alt="Schemat: rower z domu jedzie samochodem do warsztatu i wraca sprawny pod drzwi" loading="lazy">
 <h2>Ile kosztuje</h2>
 <table class="tabela"><tbody>
   <tr><td>Naprawa powyżej 200 zł</td><td><strong>transport gratis</strong></td></tr>
@@ -231,7 +234,9 @@ ${zCennika("rowery-elektryczne")}
 </tbody></table>
 <h2>Gdzie jeździmy</h2>
 <p>Strefa transportu to pas Skorogoszcz – Opole – Komprachcice. Jeździmy trasami, nigdy po jeden rower – <strong>zadzwoń, a powiemy, w jaki dzień jedziemy przez Twoją miejscowość.</strong></p>
-<p>Spoza strefy rowery odbieramy tylko wyjątkowo, gdy i tak jedziemy w pobliże. Zadzwoń i zapytaj.</p>`,
+<p>Spoza strefy rowery odbieramy tylko wyjątkowo, gdy i tak jedziemy w pobliże. Zadzwoń i zapytaj.</p>
+<h2>Co mówią klienci</h2>
+${opinieHtml(["krzysztof", "adam"])}`,
     faq: [["Czy mogę po prostu przywieźć rower?", "Oczywiście – to najszybsza droga. Przyjmujemy bez umawiania, a obok warsztatu jest duży darmowy parking."]],
     powiazane: [["/obszar-dzialania/", "Obszar działania"], ["/naprawa-roweru-elektrycznego/", "Rowery elektryczne"], ["/kontakt/", "Kontakt i dojazd"]],
   }));
@@ -243,7 +248,7 @@ ${zCennika("rowery-elektryczne")}
     wstep: "Tydzień serwisowy na terenie Twojej firmy: przyjeżdżamy z narzędziami i serwisujemy rowery pracowników na miejscu. Firma udostępnia tylko miejsce.",
     tytul: "Serwis rowerowy dla firm – benefit dla pracowników, Opole | Warsztat Komprachcice",
     opis: "Tydzień serwisowy rowerów pracowników w Twojej firmie: 5 dni do 50 rowerów 6 390 zł netto albo 3 dni do 30 rowerów 4 100 zł netto. Opole i okolice.",
-    fotoNazwa: "serwis-amortyzatora", fotoAlt: "Rozebrany amortyzator rowerowy na stole warsztatowym", fotoWH: [960, 1280],
+    fotoNazwa: "rower-gorski", fotoAlt: "Rower górski z amortyzacją na leśnej ścieżce jesienią", fotoWH: [1280, 1280],
     tresc: `
 <h2>Pakiety (ceny netto)</h2>
 <table class="tabela"><thead><tr><th>Pakiet</th><th>Ile rowerów</th><th>Cena netto</th></tr></thead><tbody>

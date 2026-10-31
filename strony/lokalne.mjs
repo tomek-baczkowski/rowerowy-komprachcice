@@ -80,7 +80,7 @@ const miejsca = [
     transport: transportTak,
     obszarTytul: "Skorogoszcz i sąsiednie wsie",
     obszar: "Skorogoszcz, Wronów, Chróścina, Borkowice, Błażejowice, Golczowice, Mikolin – zadzwoń, sprawdzimy, kiedy jedziemy w Twoją stronę.",
-    dodatek: `<h2>Jak wygląda odbiór</h2><p>Dzwonisz, ustalamy dzień, w którym przejeżdżamy przez Twoją miejscowość. Zabieramy rower, dzwonimy z wyceną, a po naprawie odwozimy go pod drzwi.</p><img class="foto" src="/img/transport-schemat.webp" width="1400" height="267" alt="Schemat: rower jedzie z domu do warsztatu i wraca sprawny pod drzwi" loading="lazy">`,
+    dodatek: `<h2>Jak wygląda odbiór</h2><p>Dzwonisz, ustalamy dzień, w którym przejeżdżamy przez Twoją miejscowość. Zabieramy rower, dzwonimy z wyceną, a po naprawie odwozimy go pod drzwi.</p><img class="foto" src="/img/transport-schemat.png" width="1400" height="267" alt="Schemat: rower jedzie z domu do warsztatu i wraca sprawny pod drzwi" loading="lazy">`,
     foto: ["transport-e-rowery", "Rowery przy samochodzie serwisu"],
   },
 ];
