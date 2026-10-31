@@ -14,6 +14,6 @@ export const opinie = {
 export function opinieHtml(klucze) {
   return `<div class="opinie">${klucze.map((k) => {
     const o = opinie[k];
-    return `<figure class="opinia"><blockquote><p>${o.tekst}</p></blockquote><figcaption><span class="gwiazdki" aria-label="Ocena 5 na 5">★★★★★</span> ${o.autor} · ${o.kiedy}, Google</figcaption></figure>`;
+    return `<figure class="opinia"><blockquote><p>${o.tekst}</p></blockquote><figcaption><span class="gwiazdki" aria-label="Ocena 5 na 5">★★★★★</span> ${o.autor} · Google</figcaption></figure>`;
   }).join("")}</div>`;
 }
