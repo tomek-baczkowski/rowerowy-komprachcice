@@ -1,0 +1,9 @@
+{
+  "name": "rowerowy-komprachcice",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "podglad": "node build.mjs && npx --yes serve dist -l 8080"
+  }
+}

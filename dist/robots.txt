@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rowerowy.komprachcice.com/sitemap.xml
