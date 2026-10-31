@@ -56,7 +56,7 @@ export function wszystkie() {
 <h2>Dla kogo</h2>
 <p>Dla każdego roweru, który jeździ regularnie – raz w roku, najlepiej przed sezonem albo na zimę. Rower dziecięcy do 20″ sprawdzimy za <a href="/przeglad-roweru-dzieciecego/">199 zł</a>, rower elektryczny ma osobny <a href="/naprawa-roweru-elektrycznego/">przegląd zerowy</a>.</p>`,
     faq: [FAQ.umawianie, FAQ.czas, ["Czy części są w cenie przeglądu?", "Nie. 279 zł to robocizna. Części, np. linki, klocki czy łańcuch, płacisz osobno – i tylko wtedy, gdy zgodzisz się na wymianę po naszym telefonie."], FAQ.gwarancja],
-    powiazane: [["/konserwacja-zimowa/", "Konserwacja zimowa 249 zł"], ["/cennik/", "Pełny cennik"], ["/transport-rowerow/", "Transport roweru"]],
+    powiazane: [["/konserwacja-zimowa/", "Konserwacja zimowa 249 zł"], ["/poradniki/jak-czesto-przeglad-roweru/", "Jak często robić przegląd roweru?"], ["/cennik/", "Pełny cennik"], ["/transport-rowerow/", "Transport roweru"]],
   }));
 
   // ---------- Konserwacja zimowa ----------
@@ -79,7 +79,7 @@ export function wszystkie() {
 </ul>
 <p>Cena jest niższa niż w sezonie, bo w listopadzie i grudniu mamy więcej czasu. Wiosną wyjeżdżasz od razu, bez kolejki.</p>`,
     faq: [["Do kiedy obowiązuje cena 249 zł?", "Konserwację zimową robimy w listopadzie i grudniu. W pozostałe miesiące zapraszamy na <a href=\"/przeglad-roweru/\">przegląd roweru</a> za 279 zł."], FAQ.czas, ["Czym różni się od zwykłego przeglądu?", "Zakres sprawdzenia jest podobny, ale kładziemy nacisk na zabezpieczenie roweru przed wilgocią i korozją na czas przechowywania."]],
-    powiazane: [["/przeglad-roweru/", "Przegląd roweru"], ["/bon-podarunkowy-rower/", "Bon na naprawę roweru – prezent"], ["/cennik/", "Pełny cennik"]],
+    powiazane: [["/przeglad-roweru/", "Przegląd roweru"], ["/poradniki/rower-na-zime/", "Jak przechować rower na zimę"], ["/bon-podarunkowy-rower/", "Bon na naprawę roweru – prezent"], ["/cennik/", "Pełny cennik"]],
   }));
 
   // ---------- Wymiana dętki ----------
@@ -99,7 +99,7 @@ ${zCennika("kola-i-opony", (p) => /opony|mleczka|bezdętk/.test(p[1]))}
 <h2>Ciągle łapiesz gumę?</h2>
 <p>Najczęściej winna jest zbyt niska wartość ciśnienia, zużyta opona albo coś wbitego w oponę, czego nie widać na pierwszy rzut oka. Przy wymianie sprawdzimy oponę od środka i taśmę na obręczy.</p>`,
     faq: [FAQ.umawianie, ["Czy wymienicie dętkę od ręki?", "Często tak, jeśli nie ma kolejki. Najpewniej będzie, gdy napiszesz wcześniej na WhatsApp i umówisz godzinę."], FAQ.czesci],
-    powiazane: [["/centrowanie-kol/", "Centrowanie kół"], ["/cennik/#kola-i-opony", "Cennik: koła i opony"]],
+    powiazane: [["/poradniki/czeste-przebicia-detki/", "Ciągle łapię gumę – co robić?"], ["/centrowanie-kol/", "Centrowanie kół"], ["/cennik/#kola-i-opony", "Cennik: koła i opony"]],
   }));
 
   // ---------- Centrowanie kół ----------
@@ -122,7 +122,7 @@ ${zCennika("kola-i-opony", (p) => /entrow|plat|plec/.test(p[1]))}
 </ul>
 <p>Mocno wygiętej obręczy nie da się czasem wycentrować. Wtedy powiemy wprost i wycenimy nową obręcz albo całe koło.</p>`,
     faq: [["Czy mogę przywieźć samo koło?", "Tak. Centrowanie koła dostarczonego bez roweru kosztuje 50 zł."], FAQ.czas, FAQ.gwarancja],
-    powiazane: [["/wymiana-detki/", "Wymiana dętki i opony"], ["/przeglad-roweru/", "Przegląd roweru"]],
+    powiazane: [["/poradniki/kolo-bije/", "Koło bije na boki – co robić?"], ["/wymiana-detki/", "Wymiana dętki i opony"], ["/przeglad-roweru/", "Przegląd roweru"]],
   }));
 
   // ---------- Napęd ----------
@@ -140,7 +140,7 @@ ${zCennika("naped-i-przerzutki")}
 <h2>Dlaczego warto wymienić łańcuch na czas</h2>
 <p>Rozciągnięty łańcuch szybciej zjada kasetę i zębatki z przodu. Wymiana samego łańcucha jest tania; jeśli poczekasz zbyt długo, trzeba wymienić cały napęd.</p>`,
     faq: [["Skąd wiem, że łańcuch jest zużyty?", "Sprawdzamy go miarką w kilka sekund – podjedź, zmierzymy na miejscu."], FAQ.czesci, FAQ.gwarancja],
-    powiazane: [["/przeglad-roweru/", "Przegląd roweru"], ["/cennik/#naped-i-przerzutki", "Cennik: napęd i przerzutki"]],
+    powiazane: [["/poradniki/kiedy-wymienic-lancuch/", "Kiedy wymienić łańcuch"], ["/poradniki/przerzutka-przeskakuje/", "Przerzutka przeskakuje"], ["/cennik/#naped-i-przerzutki", "Cennik: napęd i przerzutki"]],
   }));
 
   // ---------- Akcesoria ----------
@@ -211,7 +211,7 @@ ${zCennika("rowery-elektryczne")}
 <h2>Przegląd zerowy</h2>
 <p>Nowy rower elektryczny warto sprawdzić po pierwszych kilkuset kilometrach: linki się wyciągają, szprychy siadają, śruby się luzują.</p>`,
     faq: [["Czy naprawiacie e-rowery z marketu i mniej znanych marek?", "Tak. Naprawiamy wszystkie marki, także te bez dokumentacji serwisowej. Gdy nie ma oryginalnej części, szukamy zamiennika."], ["Ile kosztuje diagnoza usterki elektrycznej?", "200–250 zł. Dokładną wycenę naprawy podajemy po obejrzeniu roweru."], ["Czy odbierzecie ciężki e-rower z domu?", "Tak, w strefie Skorogoszcz – Opole – Komprachcice. Zobacz <a href=\"/transport-rowerow/\">transport rowerów</a>."]],
-    powiazane: [["/transport-rowerow/", "Transport rowerów"], ["/cennik/", "Pełny cennik"]],
+    powiazane: [["/poradniki/e-rower-nie-dziala/", "Rower elektryczny nie działa jak trzeba"], ["/transport-rowerow/", "Transport rowerów"], ["/cennik/", "Pełny cennik"]],
   }));
 
   // ---------- Transport ----------
@@ -233,7 +233,7 @@ ${zCennika("rowery-elektryczne")}
 <p>Strefa transportu to pas Skorogoszcz – Opole – Komprachcice. Jeździmy trasami, nigdy po jeden rower – <strong>zadzwoń, a powiemy, w jaki dzień jedziemy przez Twoją miejscowość.</strong></p>
 <p>Spoza strefy rowery odbieramy tylko wyjątkowo, gdy i tak jedziemy w pobliże. Zadzwoń i zapytaj.</p>`,
     faq: [["Czy mogę po prostu przywieźć rower?", "Oczywiście – to najszybsza droga. Przyjmujemy bez umawiania, a obok warsztatu jest duży darmowy parking."]],
-    powiazane: [["/naprawa-roweru-elektrycznego/", "Rowery elektryczne"], ["/kontakt/", "Kontakt i dojazd"]],
+    powiazane: [["/obszar-dzialania/", "Obszar działania"], ["/naprawa-roweru-elektrycznego/", "Rowery elektryczne"], ["/kontakt/", "Kontakt i dojazd"]],
   }));
 
   // ---------- Dla firm ----------

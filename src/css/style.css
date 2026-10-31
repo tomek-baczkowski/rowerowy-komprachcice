@@ -220,12 +220,20 @@ strong { font-weight: 700; }
 .linki-uslug a { font-weight: 600; }
 
 /* ---------- Stopka ---------- */
-.stopka { background: var(--grafit); color: #d9d4ca; padding: 3.5rem 0 7rem; font-size: .95rem; }
+.stopka {
+  color: #e2ddd3; padding: 4.5rem 0 7rem; font-size: .95rem;
+  background:
+    linear-gradient(180deg, rgba(36,40,43,1) 0%, rgba(36,40,43,.82) 22%, rgba(36,40,43,.78) 60%, rgba(36,40,43,.95) 100%),
+    var(--grafit) url(/img/stopka-640.webp) center 40% / cover no-repeat;
+}
+@media (min-width: 40rem) { .stopka { background-image: linear-gradient(180deg, rgba(36,40,43,1) 0%, rgba(36,40,43,.82) 22%, rgba(36,40,43,.78) 60%, rgba(36,40,43,.95) 100%), url(/img/stopka-1280.webp); } }
+@media (min-width: 80rem) { .stopka { background-image: linear-gradient(180deg, rgba(36,40,43,1) 0%, rgba(36,40,43,.82) 22%, rgba(36,40,43,.78) 60%, rgba(36,40,43,.95) 100%), url(/img/stopka-1920.webp); } }
+.stopka-motto { font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 800; font-stretch: 75%; line-height: 1.05; color: var(--limonka); margin: 0 0 2.5rem; max-width: 18ch; }
 .stopka a { color: #fff; }
 .stopka h2 { font-size: 1.15rem; font-stretch: 90%; color: #fff; margin-bottom: .8rem; }
 .stopka ul { list-style: none; padding: 0; margin: 0; }
 .stopka-siatka { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); }
-.stopka-formalna { border-top: 1px solid var(--grafit-2); margin-top: 2.5rem; padding-top: 1.5rem; font-size: .85rem; color: #aaa69e; }
+.stopka-formalna { border-top: 1px solid rgba(255,255,255,.18); margin-top: 2.5rem; padding-top: 1.5rem; font-size: .85rem; color: #c4bfb6; }
 .stopka-formalna p { max-width: none; }
 @media (min-width: 60rem) { .stopka { padding-bottom: 3rem; } }
 

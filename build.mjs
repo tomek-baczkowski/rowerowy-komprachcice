@@ -6,12 +6,14 @@ import { firma } from "./dane/firma.mjs";
 import glowna from "./strony/glowna.mjs";
 import { wszystkie as uslugi } from "./strony/uslugi.mjs";
 import { wszystkie as informacje } from "./strony/informacje.mjs";
+import { wszystkie as poradniki } from "./strony/poradniki.mjs";
+import { wszystkie as lokalne } from "./strony/lokalne.mjs";
 
 const DIST = "dist";
 rmSync(DIST, { recursive: true, force: true });
 cpSync("src", DIST, { recursive: true });
 
-const strony = [{ sciezka: "/", html: glowna() }, ...uslugi(), ...informacje()];
+const strony = [{ sciezka: "/", html: glowna() }, ...uslugi(), ...informacje(), ...poradniki(), ...lokalne()];
 
 for (const s of strony) {
   const plik = join(DIST, s.sciezka, "index.html");
