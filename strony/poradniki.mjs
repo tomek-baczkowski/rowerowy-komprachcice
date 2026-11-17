@@ -4,6 +4,7 @@
 // kiedy do serwisu, ceny, pytania, przycisk kontaktu.
 import { strona, naglowekStrony, ctaPas, faqHtml, faqSchema } from "../lib/layout.mjs";
 import { firma } from "../dane/firma.mjs";
+import { blokZWarsztatu } from "./naprawy.mjs";
 
 export const poradniki = [
   {
@@ -267,7 +268,9 @@ export function wszystkie() {
       opis: "Przerzutka przeskakuje, hamulce piszczą, koło bije, ciągle łapiesz gumę? Krótkie poradniki z przyczynami, tym, co sprawdzisz sam, i cenami naprawy.",
       tresc: `
 ${naglowekStrony({ okruszki: [["/poradniki/", "Poradniki"]], h1: "Co się dzieje z Twoim rowerem?", wstep: "Najczęstsze problemy, z którymi do nas przyjeżdżacie: przyczyny, co sprawdzisz sam i ile kosztuje naprawa.", miejsce: "poradniki" })}
-<section class="sekcja"><div class="wrap">
+${blokZWarsztatu()}
+<section class="sekcja${blokZWarsztatu() ? " sekcja--jasna" : ""}"><div class="wrap">
+  ${blokZWarsztatu() ? "<h2>Najczęstsze problemy</h2>" : ""}
   <ul class="metki">
     ${poradniki.map((p) => `<li class="metka"><h3><a href="/poradniki/${p.slug}/">${p.h1}</a></h3><p>${p.odpowiedz.split(". ")[0]}.</p></li>`).join("\n    ")}
   </ul>

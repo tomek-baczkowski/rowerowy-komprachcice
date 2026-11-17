@@ -1,0 +1,120 @@
+# Agent Janek: wpisy o naprawach z grupy na Telegramie (opis: agent/SPECYFIKACJA.md, README).
+# Co 2 godziny albo ręcznie (Actions → „Janek – wpisy o naprawach” → Run workflow).
+# Claude uruchamia się tylko wtedy, gdy jest gotowa paczka albo prośba o poprawkę.
+name: Janek – wpisy o naprawach
+
+on:
+  schedule:
+    - cron: "17 */2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write # commit wpisu do main i zapis skrzynki (gałąź bot-skrzynka)
+  actions: write # uruchomienie publikacji strony (pages.yml)
+
+concurrency:
+  group: janek
+  cancel-in-progress: false
+
+jobs:
+  janek:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      SKRZYNKA_DIR: ${{ runner.temp }}/skrzynka
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Zależności agenta
+        run: npm ci --prefix agent --no-audit --no-fund
+
+      - name: Otwarcie skrzynki (gałąź bot-skrzynka)
+        run: |
+          git config --global user.name "Janek"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          node agent/skrzynka.mjs
+
+      # Krok A + B: wiadomości z Telegrama, zdjęcia bez EXIF, nagrania na tekst (Gemini).
+      - name: Odbiór wiadomości
+        id: telegram
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_ALLOWED_USERS: ${{ secrets.TELEGRAM_ALLOWED_USERS }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
+        run: node agent/telegram.mjs
+
+      # Krok C: słownik fraz z Notion (tylko odczyt). Ceny są w dane/cennik.mjs.
+      - name: Słownik z Notion
+        id: notion
+        if: steps.telegram.outputs.praca == 'true'
+        continue-on-error: true
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        run: node agent/notion.mjs
+
+      - name: Zapamiętanie stanu przed Claude
+        id: baza
+        if: steps.telegram.outputs.praca == 'true'
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      # Krok D: Claude pisze albo poprawia wpisy (tylko pliki dane/naprawy/*.json).
+      - name: Claude pisze wpisy
+        id: claude
+        if: steps.telegram.outputs.praca == 'true' && steps.notion.outcome == 'success'
+        continue-on-error: true
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          # Po uruchomieniu płatności w Claude Console zamień linię wyżej na:
+          # anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          prompt: |
+            Wykonaj polecenie z pliku agent/PROMPT.md. Zadania na ten przebieg są w agent/praca/zadania.json.
+          claude_args: |
+            --allowedTools Read,Write,Edit,MultiEdit,Glob,Grep
+            --max-turns 80
+
+      - name: Zgłoszenie błędu Claude
+        if: steps.claude.outcome == 'failure' || steps.claude.outputs.conclusion == 'failure'
+        env:
+          EXECUTION_FILE: ${{ steps.claude.outputs.execution_file }}
+        run: node agent/blad.mjs claude
+
+      - name: Zgłoszenie błędu Notion
+        if: steps.notion.outcome == 'failure'
+        run: node agent/blad.mjs notion
+
+      # Krok E: kontrola pracy Claude, zdjęcia, node build.mjs, commit do main.
+      - name: Publikacja wpisów
+        id: publikuj
+        if: steps.claude.outcome == 'success' && steps.claude.outputs.conclusion != 'failure'
+        env:
+          BAZA_SHA: ${{ steps.baza.outputs.sha }}
+        run: node agent/publikuj.mjs
+
+      - name: Publikacja strony (pages.yml)
+        id: strona
+        if: steps.publikuj.outputs.opublikowano == 'true'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: bash agent/strona.sh
+
+      # Zawsze na końcu: wiadomości do grupy (link, braki, błędy).
+      - name: Wiadomości do grupy
+        if: always()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          STRONA: ${{ steps.strona.outcome }}
+        run: node agent/powiadom.mjs

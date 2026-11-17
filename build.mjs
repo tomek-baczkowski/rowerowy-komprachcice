@@ -8,12 +8,17 @@ import { wszystkie as uslugi } from "./strony/uslugi.mjs";
 import { wszystkie as informacje } from "./strony/informacje.mjs";
 import { wszystkie as poradniki } from "./strony/poradniki.mjs";
 import { wszystkie as lokalne } from "./strony/lokalne.mjs";
+import { wszystkie as naprawy } from "./strony/naprawy.mjs";
 
 const DIST = "dist";
 rmSync(DIST, { recursive: true, force: true });
 cpSync("src", DIST, { recursive: true });
 
-const strony = [{ sciezka: "/", html: glowna() }, ...uslugi(), ...informacje(), ...poradniki(), ...lokalne()];
+const strony = [{ sciezka: "/", html: glowna() }, ...uslugi(), ...informacje(), ...poradniki(), ...naprawy(), ...lokalne()];
+
+// Dwie strony pod tym samym adresem = błąd (np. wpis Janka o adresie istniejącego poradnika).
+const powtorzone = strony.map((s) => s.sciezka).filter((s, i, xs) => xs.indexOf(s) !== i);
+if (powtorzone.length) throw new Error(`Powtórzone adresy stron: ${powtorzone.join(", ")}`);
 
 for (const s of strony) {
   const plik = join(DIST, s.sciezka, "index.html");

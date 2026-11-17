@@ -1,0 +1,12 @@
+{
+  "name": "janek",
+  "private": true,
+  "type": "module",
+  "description": "Agent Janek: wpisy o naprawach z grupy na Telegramie",
+  "scripts": {
+    "test": "node test/scenariusze.mjs"
+  },
+  "dependencies": {
+    "sharp": "^0.34.0"
+  }
+}
