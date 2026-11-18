@@ -3,7 +3,7 @@
 import { ukryj, ponawiaj } from "./wspolne.mjs";
 
 const baza = () => process.env.GEMINI_API_BASE || "https://generativelanguage.googleapis.com";
-const model = () => process.env.GEMINI_MODEL || "gemini-2.5-flash";
+const model = () => process.env.GEMINI_MODEL || "gemini-3.8-flash";
 
 const POLECENIE = `Przepisz to nagranie po polsku słowo w słowo. To mechanik rowerowy opisuje naprawę roweru.
 Zachowaj jego słowa i kolejność, popraw tylko oczywiste przejęzyczenia. Nie dodawaj niczego od siebie,
@@ -21,7 +21,12 @@ export async function przepisz(bufor, mime = "audio/ogg") {
       }),
     });
     const dane = await odp.json().catch(() => ({}));
-    if (!odp.ok) throw new Error(ukryj(`Gemini ${odp.status}: ${dane.error?.message || ""}`));
+    if (!odp.ok) {
+      const e = new Error(ukryj(`Gemini ${odp.status}: ${dane.error?.message || ""}`));
+      // 400/401/403/404 to błąd konfiguracji (model, klucz), ponawianie nic nie da. 429 i 5xx ponawiamy.
+      if ([400, 401, 403, 404].includes(odp.status)) e.bezPonawiania = true;
+      throw e;
+    }
     const tekst = (dane.candidates?.[0]?.content?.parts || []).map((p) => p.text || "").join("").trim();
     if (!tekst || tekst.includes("[NIEZROZUMIAŁE]")) throw new Error("Gemini nie zrozumiał nagrania");
     return tekst;

@@ -61,6 +61,7 @@ export async function ponawiaj(fn, { proby = 4, przerwaMs = 2000, opis = "operac
       return await fn(i);
     } catch (e) {
       ostatni = e;
+      if (e.bezPonawiania) break;
       if (i < proby) {
         log(`${opis}: próba ${i} nieudana (${e.message}), ponawiam`);
         await new Promise((r) => setTimeout(r, przerwaMs * 2 ** (i - 1)));
