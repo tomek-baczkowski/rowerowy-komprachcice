@@ -43,17 +43,6 @@
   "wpisy": {},
   "ostatniWpis": null,
   "wiadomosciJanka": {},
-  "doWyslania": [
-    {
-      "tekst": "Nie udało się przepisać nagrania, napisz to tekstem.",
-      "slug": null,
-      "odpowiedzNa": 6
-    },
-    {
-      "tekst": "Nie publikuję, w tej paczce brakuje: treści nagrania, którego nie udało się przepisać (napisz ją tekstem).\nDoślij to i napisz „gotowe” jeszcze raz.",
-      "slug": null,
-      "odpowiedzNa": 7
-    }
-  ],
+  "doWyslania": [],
   "bledy": {}
 }
