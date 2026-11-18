@@ -1,0 +1,71 @@
+{
+  "slug": "rozciagniety-lancuch-zniszczyl-kasete-i-korbe",
+  "fraza": "rozciągnięty łańcuch zniszczył kasetę i korbę",
+  "h1": "Rozciągnięty łańcuch zniszczył kasetę i korbę – wymiana całego napędu",
+  "tytul": "Rozciągnięty łańcuch zniszczył kasetę i korbę",
+  "opis": "Rozciągnięty łańcuch zniszczył kasetę i korbę, więc wymieniliśmy cały napęd. Zobacz, jak to wyglądało, ile kosztowało i jak tego uniknąć.",
+  "odpowiedz": "Rozciągnięty łańcuch zniszczył kasetę i korbę, bo klient jeździł na nim za długo. Wymieniliśmy cały napęd, a koszt całości przekroczył 600 zł. Można było tego uniknąć, regularnie sprawdzając zużycie łańcucha i wymieniając go na czas.",
+  "objaw": [
+    "Rower trafił do nas ze zużytym napędem. Na zdjęciu widać zębatki z tyłu (kasetę lub wolnobieg, czyli zestaw zębatek na tylnym kole) w stanie sprzed naprawy i po niej."
+  ],
+  "przyczyna": [
+    "Klient zbyt długo jeździł na starym łańcuchu. Rozciągnięty łańcuch wyszlifował wolnobieg i korbę (przednie zębatki połączone z pedałami), więc nowy sam łańcuch już nie wystarczył."
+  ],
+  "kroki": [
+    "Wymieniliśmy cały napęd: łańcuch, kasetę lub wolnobieg i korbę.",
+    "Wyregulowaliśmy hamulce i przerzutki (przerzutka przerzuca łańcuch między zębatkami).",
+    "Zrobiliśmy ogólną weryfikację stanu roweru i dokręciliśmy wszystkie śruby.",
+    "Rower wyjechał z warsztatu gotowy: po przeglądzie i z nowym napędem."
+  ],
+  "uwagi": [
+    "W tym rowerze wymienialiśmy cały napęd ze względu na to, że klient zbyt długo jeździł na starym łańcuchu i rozciągnięty łańcuch wyszlifował wolnobieg oraz korbę. Koszt całości przekroczył 600 zł.",
+    "Można by tego uniknąć, gdyby regularnie sprawdzać zużycie łańcucha i wymieniać go na czas. Wtedy jedna kaseta lub wolnobieg oraz korba mogą posłużyć na kilka łańcuchów.",
+    "Przy okazji tak dużej naprawy zrobiliśmy regulację hamulców i przerzutek oraz ogólną weryfikację stanu roweru, dokręcenie wszystkich śrub. Rower wyjechał gotowy, więc po przeglądzie i z nowym napędem."
+  ],
+  "ceny": [
+    "Wymiana całego napędu",
+    "Regulacja przerzutki przód lub tył",
+    "Regulacja hamulca"
+  ],
+  "faq": [
+    [
+      "Dlaczego rozciągnięty łańcuch niszczy kasetę i korbę?",
+      "Rozciągnięty łańcuch przestaje pasować do zębów zębatek i je szlifuje. Zużyta kaseta lub wolnobieg i korba często trzeba wtedy wymienić razem z łańcuchem."
+    ],
+    [
+      "Jak uniknąć wymiany całego napędu?",
+      "Regularnie sprawdzaj zużycie łańcucha i wymieniaj go na czas. Wtedy jedna kaseta lub wolnobieg oraz korba mogą posłużyć na kilka łańcuchów."
+    ],
+    [
+      "Ile kosztuje wymiana łańcucha?",
+      "Robocizna 39 zł, łańcuch liczymy osobno."
+    ]
+  ],
+  "linki": [
+    [
+      "/naprawa-napedu/",
+      "wymiana łańcucha rowerowego"
+    ],
+    [
+      "/poradniki/kiedy-wymienic-lancuch/",
+      "kiedy wymienić łańcuch"
+    ],
+    [
+      "/cennik/",
+      "cennik serwisu rowerowego"
+    ]
+  ],
+  "naglowki": {
+    "przyczyna": "Dlaczego rozciągnięty łańcuch zniszczył kasetę i korbę"
+  },
+  "zdjecia": [
+    {
+      "plik": "naprawy/rozciagniety-lancuch-zniszczyl-kasete-i-korbe-1",
+      "alt": "Tylne koło roweru z kasetą Shimano: zestaw przed i po regeneracji napędu",
+      "szer": 1024,
+      "wys": 1280,
+      "szerMala": 512
+    }
+  ],
+  "dataPublikacji": "2026-11-18"
+}
