@@ -10,78 +10,23 @@
       "plik": "zdjecia/AQADqRJrGyHB8FN-.webp"
     }
   ],
-  "paczki": [
-    {
-      "id": "p14",
-      "mid": 14,
-      "czas": "2026-11-18T19:27:09.000Z",
-      "materialy": [
-        {
-          "mid": 2,
-          "od": "Tomek Baczkowski",
-          "czas": "2026-11-17T22:37:56.000Z",
-          "typ": "tekst",
-          "tekst": "Test 2. Janek?"
-        },
-        {
-          "mid": 3,
-          "od": "Tomek Baczkowski",
-          "czas": "2026-11-17T22:44:01.000Z",
-          "typ": "tekst",
-          "tekst": "Szymek, napisz coś"
-        },
-        {
-          "mid": 4,
-          "od": "Szymon",
-          "czas": "2026-11-18T05:52:25.000Z",
-          "typ": "tekst",
-          "tekst": "Siema, w Polsce się śpi 😜"
-        },
-        {
-          "mid": 5,
-          "od": "Tomek Baczkowski",
-          "czas": "2026-11-18T18:11:49.000Z",
-          "typ": "zdjecie",
-          "plik": "zdjecia/AQADexJrGyHB8FN-.webp"
-        },
-        {
-          "mid": 6,
-          "od": "Tomek Baczkowski",
-          "czas": "2026-11-18T18:13:11.000Z",
-          "typ": "glos",
-          "blad": true
-        },
-        {
-          "mid": 10,
-          "od": "Tomek Baczkowski",
-          "czas": "2026-11-18T19:14:28.000Z",
-          "typ": "glos",
-          "blad": true
-        },
-        {
-          "mid": 11,
-          "od": "Tomek Baczkowski",
-          "czas": "2026-11-18T19:14:46.000Z",
-          "typ": "zdjecie",
-          "plik": "zdjecia/AQADqRJrGyHB8FN-.webp"
-        },
-        {
-          "mid": 13,
-          "od": "Tomek Baczkowski",
-          "czas": "2026-11-18T19:27:01.000Z",
-          "typ": "glos",
-          "tekst": "W tym rowerze wymieniałyśmy cały napęd ze względu na to, że klient zbyt długo jeździł na starym łańcuchu i rozciągnięty łańcuch wyszlifował wolnobieg oraz oraz korbę. Koszt całości łańcuch przekroczył 600 zł. \nMożna było by go uniknąć, gdyby regularnie sprawdzać zużycie łańcucha i wymieniać go na czas. \nWtedy jedna kaseta lub wolnobieg oraz korba mogą posłużyć na kilka łańcuchów. \nPrzy okazji tak dużej naprawy zrobiliśmy regulację hamulców i przerzutek oraz ogólną weryfikację stanu roweru, dokręcenia wszystkich śrub. Rower wyjechał gotowy, więc po przeglądzie i z nowym napędem."
-        }
-      ],
-      "proby": 0,
-      "wstrzymana": false
-    }
-  ],
+  "paczki": [],
   "gotoweOdlozone": null,
   "poprawki": [],
-  "wpisy": {},
-  "ostatniWpis": null,
+  "wpisy": {
+    "rozciagniety-lancuch-zniszczyl-kasete-i-korbe": {
+      "h1": "Rozciągnięty łańcuch zniszczył kasetę i korbę – wymiana całego napędu",
+      "data": "2026-11-18"
+    }
+  },
+  "ostatniWpis": "rozciagniety-lancuch-zniszczyl-kasete-i-korbe",
   "wiadomosciJanka": {},
-  "doWyslania": [],
+  "doWyslania": [
+    {
+      "tekst": "Nowy wpis: https://rowerowy.komprachcice.com/poradniki/rozciagniety-lancuch-zniszczyl-kasete-i-korbe/\nFraza główna: rozciągnięty łańcuch zniszczył kasetę i korbę\nPominąłem, bo nie wiedziałem:\n• marka i model roweru\n• dokładna cena poszczególnych części i całości (wiadomo tylko, że ponad 600 zł)\n• czas naprawy\n• dokładna lista wymienionych części\n• drugie zdjęcie pominięte: identyczne z pierwszym (to samo zdjęcie przed/po)",
+      "slug": "rozciagniety-lancuch-zniszczyl-kasete-i-korbe",
+      "odpowiedzNa": 14
+    }
+  ],
   "bledy": {}
 }
