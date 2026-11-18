@@ -20,13 +20,9 @@
     }
   },
   "ostatniWpis": "rozciagniety-lancuch-zniszczyl-kasete-i-korbe",
-  "wiadomosciJanka": {},
-  "doWyslania": [
-    {
-      "tekst": "Nowy wpis: https://rowerowy.komprachcice.com/poradniki/rozciagniety-lancuch-zniszczyl-kasete-i-korbe/\nFraza główna: rozciągnięty łańcuch zniszczył kasetę i korbę\nPominąłem, bo nie wiedziałem:\n• marka i model roweru\n• dokładna cena poszczególnych części i całości (wiadomo tylko, że ponad 600 zł)\n• czas naprawy\n• dokładna lista wymienionych części\n• drugie zdjęcie pominięte: identyczne z pierwszym (to samo zdjęcie przed/po)",
-      "slug": "rozciagniety-lancuch-zniszczyl-kasete-i-korbe",
-      "odpowiedzNa": 14
-    }
-  ],
+  "wiadomosciJanka": {
+    "16": "rozciagniety-lancuch-zniszczyl-kasete-i-korbe"
+  },
+  "doWyslania": [],
   "bledy": {}
 }
