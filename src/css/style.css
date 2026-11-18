@@ -260,3 +260,10 @@ strong { font-weight: 700; }
 .opinia blockquote p { margin: 0; }
 .opinia figcaption { margin-top: auto; font-size: .9rem; color: var(--stal); }
 .gwiazdki { color: #b98a00; letter-spacing: .05em; }
+
+/* ---------- Wpisy z warsztatu (Janek) ---------- */
+.galeria { display: grid; gap: 1.2rem; }
+@media (min-width: 40rem) { .galeria { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 64rem) { .galeria { grid-template-columns: repeat(3, 1fr); } }
+.galeria figure { margin: 0; }
+.tresc > .foto { margin: 0 0 1.5rem; }
