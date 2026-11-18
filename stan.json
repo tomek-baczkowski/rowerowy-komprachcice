@@ -1,6 +1,6 @@
 {
   "wersja": 1,
-  "offset": 612735578,
+  "offset": 612735580,
   "materialy": [
     {
       "mid": 2,
@@ -36,6 +36,20 @@
       "czas": "2026-11-18T18:13:11.000Z",
       "typ": "glos",
       "blad": true
+    },
+    {
+      "mid": 10,
+      "od": "Tomek Baczkowski",
+      "czas": "2026-11-18T19:14:28.000Z",
+      "typ": "glos",
+      "blad": true
+    },
+    {
+      "mid": 11,
+      "od": "Tomek Baczkowski",
+      "czas": "2026-11-18T19:14:46.000Z",
+      "typ": "zdjecie",
+      "plik": "zdjecia/AQADqRJrGyHB8FN-.webp"
     }
   ],
   "paczki": [],
@@ -43,6 +57,12 @@
   "wpisy": {},
   "ostatniWpis": null,
   "wiadomosciJanka": {},
-  "doWyslania": [],
+  "doWyslania": [
+    {
+      "tekst": "Nie udało się przepisać nagrania, napisz to tekstem.",
+      "slug": null,
+      "odpowiedzNa": 10
+    }
+  ],
   "bledy": {}
 }
