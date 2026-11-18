@@ -1,0 +1,8 @@
+# Konfiguracja actionlint (sprawdzanie workflow): actionlint
+paths:
+  .github/workflows/naprawy.yml:
+    ignore:
+      # anthropics/claude-code-action@v1 ma wyjście `conclusion` (zob. jej action.yml), ale wbudowane
+      # dane actionlint o tej akcji są starsze i go nie znają. Wyjście jest potrzebne: przy błędzie sesji
+      # Claude akcja kończy krok sukcesem i ustawia tylko conclusion=failure.
+      - 'property "conclusion" is not defined in object type'

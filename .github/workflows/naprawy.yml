@@ -20,9 +20,10 @@ jobs:
   janek:
     runs-on: ubuntu-latest
     timeout-minutes: 60
-    env:
-      SKRZYNKA_DIR: ${{ runner.temp }}/skrzynka
     steps:
+      - name: Folder skrzynki
+        run: echo "SKRZYNKA_DIR=$RUNNER_TEMP/skrzynka" >> "$GITHUB_ENV"
+
       - uses: actions/checkout@v4
         with:
           ref: main
