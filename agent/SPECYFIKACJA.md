@@ -32,7 +32,7 @@ Czas reakcji nie jest ważny (może być kilka godzin).
   - pobiera zdjęcia (także albumy i zdjęcia wysłane jako plik) i nagrania,
   - przygotowuje `agent/praca/zadania.json`: najwyżej 3 nowe paczki i 5 poprawek na uruchomienie,
   - jeśli nie ma ani kompletnej paczki, ani prośby o poprawkę – kończy pracę. **Claude uruchamiamy tylko wtedy, gdy jest co robić.**
-- **Krok B – zamiana głosu na tekst** (`agent/lib/gemini.mjs`): Gemini API, darmowy poziom (`GEMINI_API_KEY`, model w zmiennej `GEMINI_MODEL`, domyślnie `gemini-3.8-flash`). Działa przy odbiorze nagrania, 3 próby (błędy konfiguracji, np. wycofany model albo zły klucz, bez ponawiania). Jeśli się nie uda, bot pisze w grupie „Nie udało się przepisać nagrania, napisz to tekstem” i paczka nie jest publikowana, dopóki po tym nagraniu nie przyjdzie wiadomość tekstowa albo nowe nagranie, które uda się przepisać. Uwaga: na darmowym poziomie Google może używać przesłanych danych do ulepszania usług.
+- **Krok B – zamiana głosu na tekst** (`agent/lib/gemini.mjs`): Gemini API, darmowy poziom (`GEMINI_API_KEY`). Zmienna `GEMINI_MODEL` to lista modeli po przecinku, próbowanych po kolei (domyślnie `gemini-3.5-flash-lite,gemini-3.8-flash`); każdy model 2 próby, limit 90 s na odpowiedź, wycofany model (404) jest od razu pomijany. Gdy Gemini jest chwilowo niedostępne (przeciążenie, brak odpowiedzi), nagranie czeka w skrzynce (tylko identyfikator pliku w Telegramie, bez dźwięku) i jest przepisywane przy następnym uruchomieniu; bot pisze w grupie, że spróbuje za ok. 2 godziny. „gotowe” wysłane w tym czasie jest odkładane i paczka zamyka się sama po przepisaniu. Prośba „Nie udało się przepisać nagrania, napisz to tekstem albo nagraj jeszcze raz” przychodzi dopiero przy błędzie, którego ponawianie nie naprawi (zły klucz, niezrozumiałe nagranie), albo po 6 nieudanych uruchomieniach (ok. 12 h). Wtedy paczka nie jest publikowana, dopóki po tym nagraniu nie przyjdzie tekst albo nowe nagranie, które uda się przepisać. Uwaga: na darmowym poziomie Google może używać przesłanych danych do ulepszania usług.
 - **Krok C – słownik z Notion** (`agent/notion.mjs`, `NOTION_TOKEN`, integracja tylko do odczytu): pobiera stronę „Słownik fraz SEO i AI – serwis, części, rowery” do `agent/praca/slownik.md`. **Cen nie pobiera** – ceny są w `dane/cennik.mjs` (punkt 4). Słownika nie kopiujemy do repozytorium.
 - **Krok D – agent**: `anthropics/claude-code-action@v1` z `claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}` (abonament Tomka). Polecenie w `agent/PROMPT.md` (Tomek poprawia je sam), format wpisu w `agent/FORMAT-WPISU.md`. Claude ma tylko narzędzia do czytania i edycji plików (bez powłoki, bez gita) i nie widzi sekretów Telegrama, Gemini ani Notion.
 - **Krok E – publikacja** (`agent/publikuj.mjs`, bez AI) – kontroluje pracę Claude niezależnie od polecenia:
@@ -51,7 +51,7 @@ Później, gdy zadziała płatność w Claude Console, przełączymy krok D na `
 ## 3. Sekrety i zmienne w GitHubie (dodaje Tomek, nigdy w kodzie ani w czacie)
 
 Sekrety: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `TELEGRAM_ALLOWED_USERS` (identyfikatory kont oddzielone przecinkiem), `GEMINI_API_KEY`, `NOTION_TOKEN`, `CLAUDE_CODE_OAUTH_TOKEN`.
-Zmienna (nieobowiązkowa): `GEMINI_MODEL`.
+Zmienna (nieobowiązkowa): `GEMINI_MODEL` (lista modeli po przecinku).
 
 ## 4. Treść wpisu
 

@@ -80,6 +80,7 @@ export function nowyStan() {
     offset: 0,
     materialy: [], // materiały od ostatniego „gotowe”
     paczki: [], // zamknięte paczki czekające na wpis
+    gotoweOdlozone: null, // „gotowe”, które czeka, aż nagranie zostanie przepisane
     poprawki: [], // prośby „Janek, …”
     wpisy: {}, // slug → { h1, url, data }
     ostatniWpis: null,

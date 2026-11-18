@@ -17,6 +17,8 @@ import { przepisz } from "./lib/gemini.mjs";
 
 const MAKS_NOWYCH = 3;
 const MAKS_POPRAWEK = 5;
+// Ile uruchomień (co 2 h) czekamy na Gemini, zanim poprosimy o tekst: 6 = ok. 12 godzin.
+const MAKS_PROB_NAGRANIA = 6;
 
 wymagane("TELEGRAM_BOT_TOKEN", "TELEGRAM_CHAT_ID", "TELEGRAM_ALLOWED_USERS");
 const CHAT = String(process.env.TELEGRAM_CHAT_ID).trim();
@@ -33,12 +35,71 @@ async function zapiszZdjecie(z) {
   return plik;
 }
 
+// Przepisanie nagrania. Przy chwilowej awarii Gemini nagranie czeka w skrzynce (tylko identyfikator pliku
+// w Telegramie, nie dźwięk) i jest przepisywane przy następnym uruchomieniu. Prośba o tekst dopiero wtedy,
+// gdy to nie ma sensu (zły klucz, niezrozumiałe nagranie) albo po MAKS_PROB_NAGRANIA uruchomieniach.
+async function przepiszGlos(m, glos) {
+  try {
+    m.tekst = await przepisz((await pobierzPlik(glos.fileId)).bufor, glos.mime);
+    delete m.czeka; delete m.plikGlosu; delete m.blad;
+    return;
+  } catch (e) {
+    log("Nie udało się przepisać nagrania:", e.message);
+    m.proby = (m.proby || 0) + 1;
+    if (e.bezPonawiania || m.proby >= MAKS_PROB_NAGRANIA) {
+      delete m.czeka; delete m.plikGlosu;
+      m.blad = true;
+      doGrupy(stan, "Nie udało się przepisać nagrania, napisz to tekstem albo nagraj jeszcze raz.", { odpowiedzNa: m.mid });
+      return;
+    }
+    if (!m.czeka) {
+      doGrupy(stan, "Gemini teraz nie odpowiada. Spróbuję przepisać to nagranie przy następnym uruchomieniu (za ok. 2 godziny), nic nie musisz robić.", { odpowiedzNa: m.mid });
+    }
+    m.czeka = true;
+    m.plikGlosu = { fileId: glos.fileId, mime: glos.mime };
+  }
+}
+
+// „gotowe” zamyka paczkę. Gdy nagranie jeszcze czeka na przepisanie, zamknięcie jest odkładane.
+function zamknijPaczke(mid, czas, grupa = null) {
+  if (stan.materialy.some((m) => m.czeka)) {
+    if (!stan.gotoweOdlozone) {
+      doGrupy(stan, "Zamknę tę paczkę, gdy tylko przepiszę nagranie.", { odpowiedzNa: mid });
+    }
+    stan.gotoweOdlozone = { mid, czas };
+    return;
+  }
+  stan.gotoweOdlozone = null;
+  const wstrzymane = stan.paczki.filter((p) => p.wstrzymana);
+  if (!stan.materialy.length && wstrzymane.length) {
+    wstrzymane.forEach((p) => { p.wstrzymana = false; p.proby = 0; });
+    doGrupy(stan, "Dobrze, spróbuję jeszcze raz z wstrzymaną paczką.", { odpowiedzNa: mid });
+    return;
+  }
+  const braki = brakiPaczki(stan.materialy);
+  if (braki.length) {
+    doGrupy(stan, `Nie publikuję, w tej paczce brakuje: ${braki.join(", ")}.\nDoślij to i napisz „gotowe” jeszcze raz.`, { odpowiedzNa: mid });
+    return;
+  }
+  const paczka = { id: `p${mid}`, mid, czas, materialy: stan.materialy, proby: 0, wstrzymana: false };
+  stan.paczki.push(paczka);
+  stan.materialy = [];
+  if (grupa) grupyPaczek.set(grupa, paczka);
+}
+
+const grupyPoprawek = new Map(); // media_group_id → poprawka (album wysłany z „Janek…”)
+const grupyPaczek = new Map(); // media_group_id → paczka (album z podpisem „gotowe”)
+
+// ---------- 0. Nagrania odłożone w poprzednich uruchomieniach ----------
+const czekajace = stan.materialy.filter((m) => m.czeka);
+if (czekajace.length) log(`Nagrania czekające na przepisanie: ${czekajace.length}`);
+for (const m of czekajace) await przepiszGlos(m, m.plikGlosu);
+if (stan.gotoweOdlozone) zamknijPaczke(stan.gotoweOdlozone.mid, stan.gotoweOdlozone.czas);
+
 // ---------- 1. Odbiór ----------
 const aktualizacje = await pobierzAktualizacje(stan.offset || undefined);
 log(`Nowych aktualizacji: ${aktualizacje.length}`);
 
-const grupyPoprawek = new Map(); // media_group_id → poprawka (album wysłany z „Janek…”)
-const grupyPaczek = new Map(); // media_group_id → paczka (album z podpisem „gotowe”)
 let przyjete = 0;
 
 for (const u of aktualizacje) {
@@ -89,35 +150,12 @@ for (const u of aktualizacje) {
   if (zdj) stan.materialy.push({ mid: msg.message_id, od, czas, typ: "zdjecie", plik: await zapiszZdjecie(zdj) });
   if (glos) {
     const m = { mid: msg.message_id, od, czas, typ: "glos" };
-    try {
-      m.tekst = await przepisz((await pobierzPlik(glos.fileId)).bufor, glos.mime);
-    } catch (e) {
-      log("Nie udało się przepisać nagrania:", e.message);
-      m.blad = true;
-      doGrupy(stan, "Nie udało się przepisać nagrania, napisz to tekstem.", { odpowiedzNa: msg.message_id });
-    }
+    await przepiszGlos(m, glos);
     stan.materialy.push(m);
   }
   if (tekst && !czyGotowe(tekst)) stan.materialy.push({ mid: msg.message_id, od, czas, typ: "tekst", tekst });
 
-  // „gotowe” zamyka paczkę.
-  if (czyGotowe(tekst)) {
-    const wstrzymane = stan.paczki.filter((p) => p.wstrzymana);
-    if (!stan.materialy.length && wstrzymane.length) {
-      wstrzymane.forEach((p) => { p.wstrzymana = false; p.proby = 0; });
-      doGrupy(stan, "Dobrze, spróbuję jeszcze raz z wstrzymaną paczką.", { odpowiedzNa: msg.message_id });
-      continue;
-    }
-    const braki = brakiPaczki(stan.materialy);
-    if (braki.length) {
-      doGrupy(stan, `Nie publikuję, w tej paczce brakuje: ${braki.join(", ")}.\nDoślij to i napisz „gotowe” jeszcze raz.`, { odpowiedzNa: msg.message_id });
-      continue;
-    }
-    const paczka = { id: `p${msg.message_id}`, mid: msg.message_id, czas, materialy: stan.materialy, proby: 0, wstrzymana: false };
-    stan.paczki.push(paczka);
-    stan.materialy = [];
-    if (grupa) grupyPaczek.set(grupa, paczka);
-  }
+  if (czyGotowe(tekst)) zamknijPaczke(msg.message_id, czas, grupa);
 }
 log(`Przyjęte wiadomości od nas: ${przyjete}`);
 

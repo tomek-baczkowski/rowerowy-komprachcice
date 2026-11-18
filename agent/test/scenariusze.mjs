@@ -40,6 +40,7 @@ sprawdz("braki w paczce: zdjęcia, opis, nieprzepisane nagranie", () => {
 });
 
 // ---------- 1. Fałszywe serwery ----------
+const gem = { przeciazone: false, zapytania: [] };
 const tg = { aktualizacje: [], pliki: new Map(), wyslane: [], nastepnyUpdate: 1, nastepnaWiad: 100, nastepnaJanka: 9000 };
 const notionBloki = [
   { type: "heading_2", id: "h", has_children: false, heading_2: { rich_text: [{ plain_text: "1. Zasady dla agenta" }] } },
@@ -71,8 +72,15 @@ const serwer = http.createServer(async (req, res) => {
   if (url.pathname.includes(":generateContent")) {
     if (req.headers["x-goog-api-key"] !== "test-gemini") return json({ error: { message: "bad key" } }, 403);
     const dane = Buffer.from(JSON.parse(cialo).contents[0].parts[1].inline_data.data, "base64").toString();
+    const model = url.pathname.match(/models\/([^:]+):/)[1];
+    gem.zapytania.push(model);
+    if (model.startsWith("wycofany")) return json({ error: { message: `models/${model} is no longer available` } }, 404);
     if (dane.startsWith("GLOS-OK:")) return json({ candidates: [{ content: { parts: [{ text: dane.slice(8) }] } }] });
-    return json({ error: { message: "internal" } }, 500);
+    if (dane.startsWith("GLOS-WOLNY:")) {
+      if (gem.przeciazone) return json({ error: { message: "This model is currently experiencing high demand." } }, 503);
+      return json({ candidates: [{ content: { parts: [{ text: dane.slice(11) }] } }] });
+    }
+    return json({ candidates: [{ content: { parts: [{ text: "[NIEZROZUMIAŁE]" }] } }] });
   }
   // Notion
   if (url.pathname.startsWith("/v1/pages/")) return json({ last_edited_time: "2026-11-17T21:32:00Z", properties: { title: { type: "title", title: [{ plain_text: "Słownik fraz SEO i AI" }] } } });
@@ -132,7 +140,7 @@ const ENV = {
   ...process.env,
   TELEGRAM_API_BASE: `http://127.0.0.1:${PORT}`, TELEGRAM_BOT_TOKEN: TOKEN,
   TELEGRAM_CHAT_ID: String(CHAT), TELEGRAM_ALLOWED_USERS: `${TOMEK},${SZYMON}`,
-  GEMINI_API_BASE: `http://127.0.0.1:${PORT}`, GEMINI_API_KEY: "test-gemini",
+  GEMINI_API_BASE: `http://127.0.0.1:${PORT}`, GEMINI_API_KEY: "test-gemini", GEMINI_PRZERWA_MS: "0",
   NOTION_API_BASE: `http://127.0.0.1:${PORT}`, NOTION_TOKEN: "test-notion",
   SKRZYNKA_DIR: SKRZ, JANEK_DZIS: "2026-11-17", JANEK_TERAZ: "2026-11-17T12:00:00Z",
 };
@@ -173,11 +181,11 @@ const zapiszWynik = (zadania) => writeFileSync(join(PRACA, "agent/praca/wynik.js
 const glowa = (galaz = "main") => g(["rev-parse", `refs/heads/${galaz}`], ORIGIN);
 const plikWOrigin = (sciezka) => { try { return g(["show", `main:${sciezka}`], ORIGIN); } catch { return null; } };
 const bazaSha = () => g(["rev-parse", "HEAD"], PRACA);
-async function przebieg({ claude = null, bladClaude = null, tomekZmienia = false } = {}) {
+async function przebieg({ claude = null, bladClaude = null, tomekZmienia = false, env = {} } = {}) {
   // Kolejność kroków jak w .github/workflows/naprawy.yml
   g(["fetch", "-q", "origin"], PRACA); g(["reset", "-q", "--hard", "origin/main"], PRACA);
   await uruchom("skrzynka.mjs");
-  const { praca } = await uruchom("telegram.mjs");
+  const { praca } = await uruchom("telegram.mjs", [], env);
   let opublikowano = "false";
   if (praca === "true") {
     await uruchom("notion.mjs");
@@ -322,7 +330,7 @@ try {
     const wys = nowe();
     sprawdz("„Nie udało się przepisać nagrania, napisz to tekstem” + brak publikacji", () => {
       assert.equal(r.praca, "false");
-      assert.equal(wys[0].text, "Nie udało się przepisać nagrania, napisz to tekstem."); assert.equal(wys[0].reply_parameters.message_id, g1);
+      assert.equal(wys[0].text, "Nie udało się przepisać nagrania, napisz to tekstem albo nagraj jeszcze raz."); assert.equal(wys[0].reply_parameters.message_id, g1);
       assert.match(wys[1].text, /brakuje: treści nagrania/);
     });
     sprawdz("dźwięk nie trafia do skrzynki", () => assert.ok(!existsSync(join(SKRZ, "glosy")) && !JSON.stringify(stan()).includes("GLOS-ZLY")));
@@ -465,6 +473,50 @@ try {
       assert.equal(stan().paczki.length, 1);
     });
     nowe();
+  }
+
+  krok("Gemini przeciążone (503) – nagranie czeka do następnego uruchomienia, „gotowe” odłożone");
+  {
+    gem.przeciazone = true; gem.zapytania = [];
+    await zdjecie(SZYMON);
+    const g1 = glos(SZYMON, "GLOS-WOLNY:Hamulec piszczał, bo klocki były zeszklone. Przeszlifowaliśmy je.");
+    const g2 = tekst(SZYMON, "gotowe");
+    await przebieg({
+      claude: (z) => {
+        sprawdz("Claude dostaje tylko starszą, czwartą paczkę – nowa czeka na nagranie", () => assert.equal(z.nowe.length, 1));
+        zapiszWpis(wpisClaude(z.nowe[0], "wymiana-detki-numer-4", "wymiana dętki numer 4", { ceny: ["Wymiana opony lub dętki – przód"] }));
+        zapiszWynik([{ id: z.nowe[0].id, status: "ok", slug: "wymiana-detki-numer-4", braki: [] }]);
+      },
+    });
+    const wys = nowe();
+    sprawdz("oba domyślne modele próbowane po 2 razy", () => assert.deepEqual(gem.zapytania, ["gemini-3.5-flash-lite", "gemini-3.5-flash-lite", "gemini-3.8-flash", "gemini-3.8-flash"]));
+    sprawdz("w grupie: „spróbuję przy następnym uruchomieniu” i „zamknę paczkę”, bez prośby o tekst", () => {
+      const doG1 = wys.find((w) => w.reply_parameters?.message_id === g1), doG2 = wys.find((w) => w.reply_parameters?.message_id === g2);
+      assert.match(doG1.text, /przy następnym uruchomieniu/); assert.match(doG2.text, /Zamknę tę paczkę/);
+      assert.ok(!wys.some((w) => /napisz to tekstem|brakuje/.test(w.text)));
+    });
+    sprawdz("w skrzynce identyfikator pliku, bez dźwięku; „gotowe” zapamiętane", () => {
+      const st = stan(), m = st.materialy.find((x) => x.typ === "glos");
+      assert.ok(m.czeka && m.plikGlosu.fileId && !m.blad); assert.equal(st.gotoweOdlozone.mid, g2);
+      assert.ok(!JSON.stringify(st).includes("zeszklone"));
+    });
+
+    gem.przeciazone = false; gem.zapytania = [];
+    let wiad;
+    await przebieg({
+      env: { GEMINI_MODEL: "wycofany-model, gemini-zapas" },
+      claude: (z) => {
+        wiad = z.nowe[0]?.wiadomosci;
+        zapiszWpis(wpisClaude(z.nowe[0], "zeszklone-klocki", "zeszklone klocki hamulcowe", { ceny: ["Wymiana opony lub dętki – przód"] }));
+        zapiszWynik([{ id: z.nowe[0].id, status: "ok", slug: "zeszklone-klocki", braki: [] }]);
+      },
+    });
+    const wys2 = nowe();
+    sprawdz("wycofany model (404) pominięty bez ponawiania, przepisał następny z listy", () => assert.deepEqual(gem.zapytania, ["wycofany-model", "gemini-zapas"]));
+    sprawdz("następne uruchomienie: nagranie przepisane, paczka sama się zamyka i trafia do Claude", () => {
+      assert.match(wiad[0].tekst, /zeszklone/); assert.equal(stan().gotoweOdlozone, null); assert.equal(stan().materialy.length, 0);
+      assert.ok(wys2.some((w) => /zeszklone-klocki/.test(w.text)));
+    });
   }
 
   krok("Budowa strony bez wpisów Janka");
