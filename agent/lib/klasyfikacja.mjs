@@ -43,10 +43,12 @@ export function brakiPaczki(materialy) {
   const opisy = materialy.filter((m) => (m.typ === "tekst" || m.typ === "glos") && m.tekst && m.tekst.trim());
   if (!zdjecia.length) braki.push("zdjęć roweru");
   if (!opisy.length) braki.push("opisu naprawy (tekstem albo nagraniem)");
-  // Nagranie, którego nie udało się przepisać, blokuje paczkę, dopóki po nim nie przyjdzie tekst.
+  // Nagranie, którego nie udało się przepisać, blokuje paczkę, dopóki po nim nie przyjdzie
+  // tekst albo nowe nagranie, które tym razem udało się przepisać.
   const ostatnieNieudane = materialy.map((m, i) => (m.typ === "glos" && m.blad ? i : -1)).filter((i) => i >= 0).pop();
-  if (ostatnieNieudane !== undefined && !materialy.slice(ostatnieNieudane + 1).some((m) => m.typ === "tekst")) {
-    braki.push("treści nagrania, którego nie udało się przepisać (napisz ją tekstem)");
+  const zastepuje = (m) => (m.typ === "tekst" || m.typ === "glos") && !m.blad && m.tekst?.trim();
+  if (ostatnieNieudane !== undefined && !materialy.slice(ostatnieNieudane + 1).some(zastepuje)) {
+    braki.push("treści nagrania, którego nie udało się przepisać (napisz ją tekstem albo nagraj jeszcze raz)");
   }
   return braki;
 }
