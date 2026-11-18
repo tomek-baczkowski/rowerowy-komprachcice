@@ -1,12 +1,59 @@
 {
   "wersja": 1,
-  "offset": 0,
-  "materialy": [],
+  "offset": 612735578,
+  "materialy": [
+    {
+      "mid": 2,
+      "od": "Tomek Baczkowski",
+      "czas": "2026-11-17T22:37:56.000Z",
+      "typ": "tekst",
+      "tekst": "Test 2. Janek?"
+    },
+    {
+      "mid": 3,
+      "od": "Tomek Baczkowski",
+      "czas": "2026-11-17T22:44:01.000Z",
+      "typ": "tekst",
+      "tekst": "Szymek, napisz coś"
+    },
+    {
+      "mid": 4,
+      "od": "Szymon",
+      "czas": "2026-11-18T05:52:25.000Z",
+      "typ": "tekst",
+      "tekst": "Siema, w Polsce się śpi 😜"
+    },
+    {
+      "mid": 5,
+      "od": "Tomek Baczkowski",
+      "czas": "2026-11-18T18:11:49.000Z",
+      "typ": "zdjecie",
+      "plik": "zdjecia/AQADexJrGyHB8FN-.webp"
+    },
+    {
+      "mid": 6,
+      "od": "Tomek Baczkowski",
+      "czas": "2026-11-18T18:13:11.000Z",
+      "typ": "glos",
+      "blad": true
+    }
+  ],
   "paczki": [],
   "poprawki": [],
   "wpisy": {},
   "ostatniWpis": null,
   "wiadomosciJanka": {},
-  "doWyslania": [],
+  "doWyslania": [
+    {
+      "tekst": "Nie udało się przepisać nagrania, napisz to tekstem.",
+      "slug": null,
+      "odpowiedzNa": 6
+    },
+    {
+      "tekst": "Nie publikuję, w tej paczce brakuje: treści nagrania, którego nie udało się przepisać (napisz ją tekstem).\nDoślij to i napisz „gotowe” jeszcze raz.",
+      "slug": null,
+      "odpowiedzNa": 7
+    }
+  ],
   "bledy": {}
 }
