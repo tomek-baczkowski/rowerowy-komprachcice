@@ -1,15 +1,7 @@
 {
   "wersja": 1,
   "offset": 612735583,
-  "materialy": [
-    {
-      "mid": 15,
-      "od": "Tomek Baczkowski",
-      "czas": "2026-11-18T19:27:10.000Z",
-      "typ": "zdjecie",
-      "plik": "zdjecia/AQADqRJrGyHB8FN-.webp"
-    }
-  ],
+  "materialy": [],
   "paczki": [],
   "gotoweOdlozone": null,
   "poprawki": [],
