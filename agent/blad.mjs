@@ -2,6 +2,7 @@
 // Ten sam komunikat najwyżej raz na 24 h (nie spamujemy co 2 godziny, gdy np. wygasł token).
 // Użycie: node agent/blad.mjs claude   (EXECUTION_FILE = plik wyniku claude-code-action, jeśli jest)
 //         node agent/blad.mjs notion
+//         node agent/blad.mjs telegram
 import { existsSync, readFileSync } from "node:fs";
 import { log, wczytajStan, zapiszStan, wypchnijSkrzynke, doGrupy } from "./lib/wspolne.mjs";
 
@@ -34,6 +35,11 @@ if (rodzaj === "claude") {
   } else {
     doGrupy(stan, "Claude przerwał pracę z błędem (szczegóły w logu workflow „Janek” na GitHubie). Materiały czekają w skrzynce, spróbuję przy następnym uruchomieniu.", { klucz: "claude-blad" });
   }
+} else if (rodzaj === "telegram") {
+  doGrupy(stan, [
+    "Nie udało mi się odebrać wiadomości z grupy (szczegóły w logu workflow „Janek” na GitHubie).",
+    "Tomek: sprawdź to w ciągu doby, bo Telegram trzyma dla mnie wiadomości tylko 24 godziny.",
+  ].join("\n"), { klucz: "telegram" });
 } else if (rodzaj === "notion") {
   doGrupy(stan, "Nie udało się pobrać słownika z Notion (sprawdź NOTION_TOKEN i czy integracja ma dostęp do strony słownika). Materiały czekają w skrzynce.", { klucz: "notion" });
 } else {

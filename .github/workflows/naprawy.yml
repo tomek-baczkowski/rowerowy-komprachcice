@@ -53,6 +53,10 @@ jobs:
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
         run: node agent/telegram.mjs
 
+      - name: Zgłoszenie błędu odbioru
+        if: failure() && steps.telegram.outcome == 'failure'
+        run: node agent/blad.mjs telegram
+
       # Krok C: słownik fraz z Notion (tylko odczyt). Ceny są w dane/cennik.mjs.
       - name: Słownik z Notion
         id: notion
