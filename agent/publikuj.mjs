@@ -209,8 +209,14 @@ async function publikuj() {
   return opublikowano;
 }
 
+// Usuwa tylko pliki, do których nic w stanie skrzynki już się nie odwołuje.
 function usunZdjeciaSkrzynki(pliki = []) {
-  for (const p of pliki || []) rmSync(join(SKRZYNKA, p), { force: true });
+  const wUzyciu = new Set([
+    ...stan.materialy.filter((m) => m.typ === "zdjecie").map((m) => m.plik),
+    ...stan.paczki.flatMap((p) => p.materialy.filter((m) => m.typ === "zdjecie").map((m) => m.plik)),
+    ...stan.poprawki.flatMap((p) => p.zdjecia || []),
+  ]);
+  for (const p of pliki || []) if (!wUzyciu.has(p)) rmSync(join(SKRZYNKA, p), { force: true });
 }
 
 function wycofaj() {

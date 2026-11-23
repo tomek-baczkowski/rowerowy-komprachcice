@@ -519,11 +519,51 @@ try {
     });
   }
 
+  krok("To samo zdjęcie wysłane drugi raz po „gotowe” (awaria z 19–20.11.2026)");
+  {
+    await zdjecie(SZYMON);
+    const foto = tg.aktualizacje.at(-1).message.photo;
+    tekst(SZYMON, "Łańcuch był rozciągnięty, wymieniliśmy go.");
+    tekst(SZYMON, "gotowe");
+    wiadomosc(SZYMON, { photo: foto }); // to samo zdjęcie jeszcze raz, już do następnej paczki
+    await przebieg({
+      claude: (z) => {
+        zapiszWpis(wpisClaude(z.nowe[0], "rozciagniety-lancuch-test", "rozciągnięty łańcuch test"));
+        zapiszWynik([{ id: z.nowe[0].id, status: "ok", slug: "rozciagniety-lancuch-test", braki: [] }]);
+      },
+    });
+    nowe();
+    sprawdz("po publikacji plik powtórzonego zdjęcia nadal jest w skrzynce", () => {
+      const m = stan().materialy.filter((x) => x.typ === "zdjecie");
+      assert.equal(m.length, 1); assert.ok(existsSync(join(SKRZ, m[0].plik)));
+    });
+    // Stan po starej wersji: materiał wskazuje na plik, którego nie ma.
+    const st = stan();
+    st.materialy.push({ mid: 1, od: "Szymon", czas: "2026-11-17T10:00:00Z", typ: "zdjecie", plik: "zdjecia/nie-ma-mnie.webp" });
+    writeFileSync(join(SKRZ, "stan.json"), JSON.stringify(st, null, 2));
+    tekst(SZYMON, "Druga naprawa łańcucha.");
+    tekst(SZYMON, "gotowe");
+    let zdjecWZadaniu = -1;
+    await przebieg({
+      claude: (z) => {
+        zdjecWZadaniu = z.nowe[0].zdjecia.length;
+        zapiszWpis(wpisClaude(z.nowe[0], "rozciagniety-lancuch-test-2", "rozciągnięty łańcuch test 2"));
+        zapiszWynik([{ id: z.nowe[0].id, status: "ok", slug: "rozciagniety-lancuch-test-2", braki: [] }]);
+      },
+    });
+    nowe();
+    sprawdz("brakujący plik pominięty, odbiór i wpis idą dalej", () => {
+      assert.equal(zdjecWZadaniu, 1);
+      assert.ok(plikWOrigin("dane/naprawy/rozciagniety-lancuch-test-2.json"));
+    });
+  }
+
   krok("Budowa strony bez wpisów Janka");
   {
     const katalog = join(T, "czysty");
     g(["clone", "-q", ORIGIN, katalog], T);
     g(["checkout", "-q", g(["rev-list", "--max-parents=0", "main"], katalog)], katalog);
+    rmSync(join(katalog, "dane/naprawy"), { recursive: true, force: true }); // prawdziwe wpisy z repo
     execFileSync("node", ["build.mjs"], { cwd: katalog });
     const strony = readdirSync(join(katalog, "dist/poradniki"));
     sprawdz("bez wpisów Janka lista poradników nie ma bloku „Z warsztatu”, 10 poradników jak wcześniej", () => {

@@ -4,7 +4,7 @@
 // - „gotowe” zamyka paczkę, „Janek…” albo odpowiedź na link Janka to poprawka,
 // - przygotowuje agent/praca/zadania.json dla Claude i ustawia wyjście praca=true/false.
 // Użycie: node agent/telegram.mjs
-import { mkdirSync, writeFileSync, readFileSync, rmSync } from "node:fs";
+import { mkdirSync, writeFileSync, readFileSync, rmSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import {
   log, wymagane, ustawWyjscie, wczytajStan, zapiszStan, wypchnijSkrzynke, doGrupy, dzisiaj, urlWpisu,
@@ -26,10 +26,12 @@ const DOZWOLENI = new Set(process.env.TELEGRAM_ALLOWED_USERS.split(/[\s,;]+/).fi
 
 const stan = wczytajStan();
 
-async function zapiszZdjecie(z) {
+// Nazwa pliku z numerem wiadomości: to samo zdjęcie wysłane dwa razy ma w Telegramie ten sam
+// file_unique_id, a wspólny plik znikał przy publikacji pierwszej paczki (awaria z 19–20.11.2026).
+async function zapiszZdjecie(z, mid) {
   const { bufor } = await pobierzPlik(z.fileId);
   const czyste = await doSkrzynki(bufor);
-  const plik = `zdjecia/${z.unikalny}.webp`;
+  const plik = `zdjecia/${mid}-${z.unikalny}.webp`;
   mkdirSync(join(SKRZYNKA, "zdjecia"), { recursive: true });
   writeFileSync(join(SKRZYNKA, plik), czyste);
   return plik;
@@ -90,6 +92,24 @@ function zamknijPaczke(mid, czas, grupa = null) {
 const grupyPoprawek = new Map(); // media_group_id → poprawka (album wysłany z „Janek…”)
 const grupyPaczek = new Map(); // media_group_id → paczka (album z podpisem „gotowe”)
 
+// ---------- 0a. Zdjęcia, których nie ma w skrzynce ----------
+// Brak pliku nie może zatrzymać odbioru: wtedy wiadomości z Telegrama nie są zapisywane i po 24 h przepadają.
+{
+  const jest = (plik) => existsSync(join(SKRZYNKA, plik));
+  const brakujace = [];
+  const filtruj = (lista) => lista.filter((m) => {
+    if (m.typ !== "zdjecie" || jest(m.plik)) return true;
+    brakujace.push(m.plik);
+    return false;
+  });
+  stan.materialy = filtruj(stan.materialy);
+  for (const p of stan.paczki) p.materialy = filtruj(p.materialy);
+  for (const p of stan.poprawki) {
+    p.zdjecia = p.zdjecia.filter((plik) => jest(plik) || (brakujace.push(plik), false));
+  }
+  if (brakujace.length) log(`Pominięte zdjęcia, których nie ma w skrzynce: ${brakujace.join(", ")}`);
+}
+
 // ---------- 0. Nagrania odłożone w poprzednich uruchomieniach ----------
 const czekajace = stan.materialy.filter((m) => m.czeka);
 if (czekajace.length) log(`Nagrania czekające na przepisanie: ${czekajace.length}`);
@@ -119,11 +139,11 @@ for (const u of aktualizacje) {
 
   // Dalsze zdjęcia z albumu, który zaczynał się od prośby o poprawkę albo od „gotowe”.
   if (grupa && zdj && !tekst && grupyPoprawek.has(grupa)) {
-    grupyPoprawek.get(grupa).zdjecia.push(await zapiszZdjecie(zdj));
+    grupyPoprawek.get(grupa).zdjecia.push(await zapiszZdjecie(zdj, msg.message_id));
     continue;
   }
   if (grupa && zdj && !tekst && grupyPaczek.has(grupa)) {
-    grupyPaczek.get(grupa).materialy.push({ mid: msg.message_id, od, czas, typ: "zdjecie", plik: await zapiszZdjecie(zdj) });
+    grupyPaczek.get(grupa).materialy.push({ mid: msg.message_id, od, czas, typ: "zdjecie", plik: await zapiszZdjecie(zdj, msg.message_id) });
     continue;
   }
 
@@ -131,7 +151,7 @@ for (const u of aktualizacje) {
   const celZOdpowiedzi = stan.wiadomosciJanka[String(msg.reply_to_message?.message_id)] || null;
   if (celZOdpowiedzi || czyJanek(tekst)) {
     const p = { id: `k${msg.message_id}`, mid: msg.message_id, od, czas, tekst, cel: celZOdpowiedzi, zdjecia: [], proby: 0 };
-    if (zdj) p.zdjecia.push(await zapiszZdjecie(zdj));
+    if (zdj) p.zdjecia.push(await zapiszZdjecie(zdj, msg.message_id));
     if (glos) {
       try {
         p.tekst = [p.tekst, await przepisz((await pobierzPlik(glos.fileId)).bufor, glos.mime)].filter(Boolean).join("\n");
@@ -147,7 +167,7 @@ for (const u of aktualizacje) {
   }
 
   // Materiały do następnego wpisu.
-  if (zdj) stan.materialy.push({ mid: msg.message_id, od, czas, typ: "zdjecie", plik: await zapiszZdjecie(zdj) });
+  if (zdj) stan.materialy.push({ mid: msg.message_id, od, czas, typ: "zdjecie", plik: await zapiszZdjecie(zdj, msg.message_id) });
   if (glos) {
     const m = { mid: msg.message_id, od, czas, typ: "glos" };
     await przepiszGlos(m, glos);
@@ -158,6 +178,11 @@ for (const u of aktualizacje) {
   if (czyGotowe(tekst)) zamknijPaczke(msg.message_id, czas, grupa);
 }
 log(`Przyjęte wiadomości od nas: ${przyjete}`);
+
+// Odebrane wiadomości zapisujemy od razu, zanim cokolwiek dalej może się wysypać.
+// Telegram trzyma niepotwierdzone wiadomości tylko 24 h.
+zapiszStan(stan);
+await wypchnijSkrzynke(`odbiór wiadomości (offset ${stan.offset})`);
 
 // ---------- 2. Zadania dla Claude ----------
 const wpisy = Object.entries(stan.wpisy).map(([slug, w]) => ({ slug, h1: w.h1, url: urlWpisu(slug), data: w.data }));
@@ -214,5 +239,5 @@ if (praca) {
 }
 
 zapiszStan(stan);
-await wypchnijSkrzynke(`odbiór wiadomości (offset ${stan.offset})`);
+await wypchnijSkrzynke("zadania dla Claude");
 ustawWyjscie("praca", praca);
