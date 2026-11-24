@@ -2,64 +2,29 @@
   "wersja": 1,
   "offset": 612735596,
   "materialy": [],
-  "paczki": [
-    {
-      "id": "p29",
-      "mid": 29,
-      "czas": "2026-11-23T19:17:23.000Z",
-      "materialy": [
-        {
-          "mid": 24,
-          "od": "Tomek Baczkowski",
-          "czas": "2026-11-23T19:17:17.000Z",
-          "typ": "glos",
-          "tekst": "Na serwis trafił rower z dużym luzem na tylnej piaszcie. Po rozebraniu okazało się, że oś piaszty jest pęknięta. Po wyczyszczeniu wszystkich elementów, oceniłem stan bieżni wewnątrz piaszty. Były okej, więc można było zrobić serwis i zamontować nową oś i nowe kulki łożyskowe. \nTak też zrobiłem, wszystko wyczyściłem, nasmarowałem, zainstalowałem nowe części i poskładałem z powrotem. \nKoszt robocizny razem z częściami 90 zł."
-        },
-        {
-          "mid": 25,
-          "od": "Tomek Baczkowski",
-          "czas": "2026-11-23T19:17:18.000Z",
-          "typ": "glos",
-          "tekst": "W rowerach górskich z niskiej półki jest to dosyć częsty przypadek. Ważne, żeby zauważyć to na czas i dostarczyć rower na serwis, ponieważ jeżdżąc tak dalej, można uszkodzić całą piastę lub spowodować nawet wypadek."
-        },
-        {
-          "mid": 26,
-          "od": "Tomek Baczkowski",
-          "czas": "2026-11-23T19:17:18.000Z",
-          "typ": "zdjecie",
-          "plik": "zdjecia/26-AQADmRBrG2aT-FN-.webp"
-        },
-        {
-          "mid": 27,
-          "od": "Tomek Baczkowski",
-          "czas": "2026-11-23T19:17:18.000Z",
-          "typ": "zdjecie",
-          "plik": "zdjecia/27-AQADmBBrG2aT-FN-.webp"
-        },
-        {
-          "mid": 28,
-          "od": "Tomek Baczkowski",
-          "czas": "2026-11-23T19:17:18.000Z",
-          "typ": "zdjecie",
-          "plik": "zdjecia/28-AQADmhBrG2aT-FN-.webp"
-        }
-      ],
-      "proby": 0,
-      "wstrzymana": false
-    }
-  ],
+  "paczki": [],
   "gotoweOdlozone": null,
   "poprawki": [],
   "wpisy": {
     "rozciagniety-lancuch-zniszczyl-kasete-i-korbe": {
       "h1": "Rozciągnięty łańcuch zniszczył kasetę i korbę – wymiana całego napędu",
       "data": "2026-11-18"
+    },
+    "luz-na-tylnej-piascie-pekla-os": {
+      "h1": "Luz na tylnej piaście w rowerze górskim – pęknięta oś",
+      "data": "2026-11-24"
     }
   },
-  "ostatniWpis": "rozciagniety-lancuch-zniszczyl-kasete-i-korbe",
+  "ostatniWpis": "luz-na-tylnej-piascie-pekla-os",
   "wiadomosciJanka": {
     "16": "rozciagniety-lancuch-zniszczyl-kasete-i-korbe"
   },
-  "doWyslania": [],
+  "doWyslania": [
+    {
+      "tekst": "Nowy wpis: https://rowerowy.komprachcice.com/poradniki/luz-na-tylnej-piascie-pekla-os/\nFraza główna: luz na tylnej piaście w rowerze górskim\nPominąłem, bo nie wiedziałem:\n• model i marka roweru\n• rocznik roweru\n• cena nowej osi i kulek osobno (podano tylko 90 zł razem z robocizną)\n• czas naprawy",
+      "slug": "luz-na-tylnej-piascie-pekla-os",
+      "odpowiedzNa": 29
+    }
+  ],
   "bledy": {}
 }
