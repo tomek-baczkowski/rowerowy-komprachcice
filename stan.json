@@ -17,14 +17,9 @@
   },
   "ostatniWpis": "luz-na-tylnej-piascie-pekla-os",
   "wiadomosciJanka": {
-    "16": "rozciagniety-lancuch-zniszczyl-kasete-i-korbe"
+    "16": "rozciagniety-lancuch-zniszczyl-kasete-i-korbe",
+    "30": "luz-na-tylnej-piascie-pekla-os"
   },
-  "doWyslania": [
-    {
-      "tekst": "Nowy wpis: https://rowerowy.komprachcice.com/poradniki/luz-na-tylnej-piascie-pekla-os/\nFraza główna: luz na tylnej piaście w rowerze górskim\nPominąłem, bo nie wiedziałem:\n• model i marka roweru\n• rocznik roweru\n• cena nowej osi i kulek osobno (podano tylko 90 zł razem z robocizną)\n• czas naprawy",
-      "slug": "luz-na-tylnej-piascie-pekla-os",
-      "odpowiedzNa": 29
-    }
-  ],
+  "doWyslania": [],
   "bledy": {}
 }
