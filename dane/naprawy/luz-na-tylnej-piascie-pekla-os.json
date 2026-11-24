@@ -1,0 +1,83 @@
+{
+  "slug": "luz-na-tylnej-piascie-pekla-os",
+  "fraza": "luz na tylnej piaście w rowerze górskim",
+  "h1": "Luz na tylnej piaście w rowerze górskim – pęknięta oś",
+  "tytul": "Luz na tylnej piaście w rowerze – pęknięta oś",
+  "opis": "Luz na tylnej piaście w rowerze górskim? U nas pękła oś. Zobacz, jak wyglądała naprawa łożysk i ile kosztuje serwis piasty (od 50 zł).",
+  "odpowiedz": "Luz na tylnej piaście (środku koła, w którym obraca się oś) może oznaczać pękniętą oś. W tym rowerze górskim po rozebraniu piasty okazało się, że oś jest pęknięta, a bieżnie w środku były w porządku. Wymieniliśmy oś i kulki łożyskowe, więc nie trzeba było wymieniać całej piasty.",
+  "objaw": [
+    "Do serwisu trafił rower z dużym luzem na tylnej piaście. Koło ruszało się na boki, a jazda w takim stanie jest ryzykowna."
+  ],
+  "przyczyna": [
+    "Po rozebraniu piasty okazało się, że oś jest pęknięta. Na zdjęciu widać oś złamaną na dwie części."
+  ],
+  "kroki": [
+    "Rozebraliśmy tylną piastę i wyczyściliśmy wszystkie elementy.",
+    "Oceniliśmy stan bieżni (gładkich powierzchni w piaście, po których toczą się kulki). Były w dobrym stanie, więc serwis piasty miał sens.",
+    "Zamontowaliśmy nową oś i nowe kulki łożyskowe.",
+    "Nasmarowaliśmy łożyska i poskładaliśmy piastę z powrotem."
+  ],
+  "czesci": [
+    "oś piasty",
+    "kulki łożyskowe"
+  ],
+  "uwagi": [
+    "Na serwis trafił rower z dużym luzem na tylnej piaście. Po rozebraniu okazało się, że oś piasty jest pęknięta. Po wyczyszczeniu wszystkich elementów oceniłem stan bieżni wewnątrz piasty. Były okej, więc można było zrobić serwis i zamontować nową oś i nowe kulki łożyskowe. Tak też zrobiłem: wszystko wyczyściłem, nasmarowałem, zainstalowałem nowe części i poskładałem z powrotem. Koszt robocizny razem z częściami: 90 zł.",
+    "W rowerach górskich z niskiej półki jest to dosyć częsty przypadek. Ważne, żeby zauważyć to na czas i dostarczyć rower na serwis, ponieważ jeżdżąc tak dalej, można uszkodzić całą piastę lub spowodować nawet wypadek."
+  ],
+  "ceny": [
+    "Czyszczenie i smarowanie łożysk kulkowych w piaście"
+  ],
+  "faq": [
+    [
+      "Czy luz na piaście trzeba od razu naprawiać?",
+      "Tak. Jeżdżąc dalej z luzem, można uszkodzić całą piastę, a nawet spowodować wypadek. Lepiej przywieźć rower na serwis, zanim luz się powiększy."
+    ],
+    [
+      "Czy przy luzie na piaście zawsze trzeba wymieniać całą piastę?",
+      "Nie. Jeśli po rozebraniu i wyczyszczeniu bieżnie w środku są w dobrym stanie, wystarczy wymienić zużyte części, np. oś i kulki łożyskowe, i nasmarować piastę."
+    ]
+  ],
+  "linki": [
+    [
+      "/cennik/",
+      "cennik serwisu rowerowego"
+    ],
+    [
+      "/poradniki/kolo-bije/",
+      "koło bije na boki"
+    ],
+    [
+      "/poradniki/rower-skrzypi/",
+      "rower ciężko chodzi"
+    ],
+    [
+      "/przeglad-roweru/",
+      "przegląd roweru Opole"
+    ]
+  ],
+  "zdjecia": [
+    {
+      "plik": "naprawy/luz-na-tylnej-piascie-pekla-os-1",
+      "alt": "Tylna piasta z odsłoniętymi kulkami łożyskowymi w kole rowerowym po rozebraniu",
+      "szer": 576,
+      "wys": 1280,
+      "szerMala": 288
+    },
+    {
+      "plik": "naprawy/luz-na-tylnej-piascie-pekla-os-2",
+      "alt": "Pęknięta oś tylnej piasty rowerowej, złamana na dwie części, leżąca na stole warsztatowym",
+      "szer": 576,
+      "wys": 1280,
+      "szerMala": 288
+    },
+    {
+      "plik": "naprawy/luz-na-tylnej-piascie-pekla-os-3",
+      "alt": "Tylna piasta po zdjęciu osi, widoczna nakrętka i gwint na tylnym kole roweru",
+      "szer": 576,
+      "wys": 1280,
+      "szerMala": 288
+    }
+  ],
+  "dataPublikacji": "2026-11-24"
+}
