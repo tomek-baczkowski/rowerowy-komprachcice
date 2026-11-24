@@ -63,3 +63,10 @@ w `/poradniki/<adres>/` i odsyła link. Pełny opis: `agent/SPECYFIKACJA.md`.
 2. Sekrety (Settings → Secrets and variables → Actions): `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` (identyfikator grupy, zaczyna się od `-100`), `TELEGRAM_ALLOWED_USERS` (identyfikatory kont Tomka i Szymona, po przecinku), `GEMINI_API_KEY`, `NOTION_TOKEN`, `CLAUDE_CODE_OAUTH_TOKEN`.
 3. Notion: integracja z uprawnieniem tylko „Read content”, dodana do strony „Słownik fraz SEO i AI – serwis, części, rowery” (⋯ → Connections).
 4. Jeśli `main` ma ochronę gałęzi, dopuść push z GitHub Actions.
+
+## Analityka
+
+Google Analytics 4 (identyfikator `G-4RP5JN6Y4W`, konto Google Tomka), od 24.11.2026.
+Skrypt `src/js/analityka.js` wczytuje GA4 dopiero po zgodzie odwiedzającego (okienko na dole strony, wybór zapamiętany w przeglądarce; link „Ustawienia statystyk” w stopce otwiera je ponownie). Kliknięcia e-mail, telefon i WhatsApp trafiają jako zdarzenia `kontakt_email`, `kontakt_telefon`, `kontakt_whatsapp`. Opis w polityce prywatności. Ten sam plik jest w repozytoriach kombuczka, rowerowy-komprachcice i tomekbaczkowski_pl – zmiany wprowadzać we wszystkich.
+
+Google Search Console: weryfikacja plikiem `src/google3c1a9864a3aa46fe.html` (nie usuwać), mapa witryny przesłana 24.11.2026.
